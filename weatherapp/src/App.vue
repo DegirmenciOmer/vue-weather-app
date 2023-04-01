@@ -4,9 +4,34 @@
 
 <script>
 // import HelloWorld from './components/HelloWorld.vue'
+import axios from 'axios'
+import db from './firebase/firebaseinit'
 
 export default {
   name: 'App',
+  data() {
+    return {
+      apiKey: process.env.VUE_APP_API_KEY,
+      city: 'Detroit',
+      cities: [],
+    }
+  },
+  methods: {
+    getCurentWeather() {
+      axios
+        .get(
+          `https://api.weatherapi.com/v1/current.json?key=${this.apiKey}&q=${this.city}&aqi=no`
+        )
+        .then((res) => {
+          console.log(res.data)
+        })
+
+      console.log(this.apiKey, db)
+    },
+  },
+  created() {
+    this.getCurentWeather()
+  },
   components: {},
 }
 </script>
