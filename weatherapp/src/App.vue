@@ -1,12 +1,13 @@
 <template>
-  <div id="app"></div>
+  <div id="app"><Navigation /></div>
 </template>
 
 <script>
-// https://youtu.be/n8xFGcYB0Jo?t=127
+// https://www.youtube.com/watch?v=0H3oUgC7OSg
 // import HelloWorld from './components/HelloWorld.vue'
 import axios from 'axios'
 import db from './firebase/firebaseinit'
+import Navigation from './components/Navigation'
 
 export default {
   name: 'App',
@@ -46,40 +47,34 @@ export default {
           }
         })
       })
-      axios
-        .get(
-          `https://api.weatherapi.com/v1/current.json?key=${this.apiKey}&q=${this.city}&aqi=no`
-        )
-        .then((res) => {
-          console.log(res.data)
-        })
-
-      console.log(this.apiKey, db)
     },
   },
   created() {
     this.getCurrentWeather()
   },
-  components: {},
+  components: { Navigation },
 }
 </script>
 
 <style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Quicksand', sans-serif;
 }
-#nav {
-  padding: 30px;
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-    &.router-link-exact-active {
-      color: #42b983;
-    }
+
+.main {
+  height: 100vh;
+  .navigation {
+    z-index: 99;
+    position: fixed;
+    max-width: 1024px;
+    width: 100%;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  }
+  .container {
+    padding: 0 20px;
   }
 }
 </style>
