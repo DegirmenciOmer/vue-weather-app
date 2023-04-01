@@ -3,6 +3,7 @@
 </template>
 
 <script>
+// https://youtu.be/n8xFGcYB0Jo?t=127
 // import HelloWorld from './components/HelloWorld.vue'
 import axios from 'axios'
 import db from './firebase/firebaseinit'
@@ -17,7 +18,34 @@ export default {
     }
   },
   methods: {
-    getCurentWeather() {
+    getCurrentWeather() {
+      let firebaseDB = db.collection('cities')
+
+      firebaseDB.onSnapshot((snap) => {
+        snap.docChanges().forEach(async (doc) => {
+          if (doc.type === 'added') {
+            try {
+              const res = await axios.get(
+                `https://api.weatherapi.com/v1/current.json?key=${
+                  this.apiKey
+                }&q=${doc.doc.data().city}&aqi=no`
+              )
+
+              const data = res.data
+              console.log({ data })
+              firebaseDB
+                .doc(doc.doc.id)
+                .update({ currentWeather: data })
+                .then(() => this.cities.push(doc.doc.data()))
+                .then(() => console.log(this.cities))
+            } catch (error) {
+              console.log(error)
+            }
+          } else {
+            console.log(doc.doc.data().city, 'daata', doc.type)
+          }
+        })
+      })
       axios
         .get(
           `https://api.weatherapi.com/v1/current.json?key=${this.apiKey}&q=${this.city}&aqi=no`
@@ -30,7 +58,7 @@ export default {
     },
   },
   created() {
-    this.getCurentWeather()
+    this.getCurrentWeather()
   },
   components: {},
 }
