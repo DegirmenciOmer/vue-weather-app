@@ -1,5 +1,10 @@
 <template>
-  <div id="app"><Navigation /></div>
+  <div id="app">
+    <div class="container">
+      <Navigation />
+      <router-view v-bind:cities="cities" />
+    </div>
+  </div>
 </template>
 
 <script>
@@ -33,7 +38,6 @@ export default {
               )
 
               const data = res.data
-              console.log({ data })
               firebaseDB
                 .doc(doc.doc.id)
                 .update({ currentWeather: data })
@@ -64,17 +68,9 @@ export default {
   font-family: 'Quicksand', sans-serif;
 }
 
-.main {
+.container {
   height: 100vh;
-  .navigation {
-    z-index: 99;
-    position: fixed;
-    max-width: 1024px;
-    width: 100%;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  }
-  .container {
-    padding: 0 20px;
-  }
+  max-width: 1024px;
+  margin: 0 auto;
 }
 </style>
