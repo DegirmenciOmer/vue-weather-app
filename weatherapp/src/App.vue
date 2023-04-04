@@ -1,16 +1,18 @@
 <template>
   <div class="main">
-    <Navigation />
+    <Modal v-if="modalOpen" />
+    <Navigation v-on:add-city="toggleModal" />
     <router-view v-bind:cities="cities" />
   </div>
 </template>
 
 <script>
-// https://youtu.be/raP72f0xIwA?t=584
+// https://youtu.be/KtpGSsliUW8?t=786
 // import HelloWorld from './components/HelloWorld.vue'
 import axios from 'axios'
 import db from './firebase/firebaseinit'
 import Navigation from './components/Navigation'
+import Modal from './components/Modal'
 
 export default {
   name: 'App',
@@ -19,6 +21,7 @@ export default {
       apiKey: process.env.VUE_APP_API_KEY,
       city: 'Detroit',
       cities: [],
+      modalOpen: false,
     }
   },
   methods: {
@@ -50,11 +53,14 @@ export default {
         })
       })
     },
+    toggleModal() {
+      this.modalOpen = !this.modalOpen
+    },
   },
   created() {
     this.getCurrentWeather()
   },
-  components: { Navigation },
+  components: { Navigation, Modal },
 }
 </script>
 

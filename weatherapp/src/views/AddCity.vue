@@ -21,10 +21,11 @@ export default {
 </script>
 <style lang="scss" scoped>
 .grid {
-  display: flex;
+  display: grid;
   padding-top: 8px;
   width: 100%;
   background-color: #31363d;
+  height: 100vh;
 
   @media (min-width: 400px) {
     grid-template-columns: repeat(2, 1fr);
