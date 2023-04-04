@@ -1,14 +1,12 @@
 <template>
-  <div id="app">
-    <div class="container">
-      <Navigation />
-      <router-view v-bind:cities="cities" />
-    </div>
+  <div class="main">
+    <Navigation />
+    <router-view v-bind:cities="cities" />
   </div>
 </template>
 
 <script>
-// https://www.youtube.com/watch?v=0H3oUgC7OSg
+// https://youtu.be/raP72f0xIwA?t=584
 // import HelloWorld from './components/HelloWorld.vue'
 import axios from 'axios'
 import db from './firebase/firebaseinit'
@@ -68,9 +66,12 @@ export default {
   font-family: 'Quicksand', sans-serif;
 }
 
-.container {
+.main {
   height: 100vh;
-  max-width: 1024px;
-  margin: 0 auto;
+  background-color: #31363d;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
 }
 </style>

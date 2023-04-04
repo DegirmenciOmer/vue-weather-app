@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import AddCity from '../views/AddCity.vue'
+import AddCity from '../views/AddCity'
 
 Vue.use(VueRouter)
 

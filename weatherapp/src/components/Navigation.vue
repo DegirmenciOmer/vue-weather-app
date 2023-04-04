@@ -18,12 +18,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.add-city {
-  background-color: #313640;
-}
 header {
   z-index: 99;
-  position: fixed;
   max-width: 1024px;
   width: 100%;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);

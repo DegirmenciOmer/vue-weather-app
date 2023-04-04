@@ -1,10 +1,14 @@
 <template>
-  <div></div>
+  <div class="grid">
+    <div v-for="(city, idx) in cities" v-bind:key="idx" class="city-link">
+      <City v-bind:city="city" />
+    </div>
+  </div>
 </template>
 
 <script>
 // @ is an alias to /src
-// import HelloWorld from '@/components/HelloWorld.vue'
+import City from '../components/City.vue'
 
 export default {
   name: 'AddCity',
@@ -12,6 +16,19 @@ export default {
   created() {
     console.log(this.cities)
   },
-  components: {},
+  components: { City },
 }
 </script>
+<style lang="scss" scoped>
+.grid {
+  display: flex;
+  padding-top: 8px;
+  width: 100%;
+  background-color: #31363d;
+
+  @media (min-width: 400px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+</style>
+:
