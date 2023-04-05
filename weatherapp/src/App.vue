@@ -1,6 +1,6 @@
 <template>
   <div class="main">
-    <Modal v-if="modalOpen" />
+    <Modal v-if="modalOpen" v-on:close-modal="toggleModal" />
     <Navigation v-on:add-city="toggleModal" />
     <router-view v-bind:cities="cities" />
   </div>
@@ -22,6 +22,7 @@ export default {
       city: 'Detroit',
       cities: [],
       modalOpen: false,
+      url: '',
     }
   },
   methods: {
@@ -43,7 +44,6 @@ export default {
                 .doc(doc.doc.id)
                 .update({ currentWeather: data })
                 .then(() => this.cities.push(doc.doc.data()))
-                .then(() => console.log(this.cities))
             } catch (error) {
               console.log(error)
             }

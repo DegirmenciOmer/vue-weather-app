@@ -1,5 +1,5 @@
 <template>
-  <div class="modal">
+  <div class="modal" @click="closeModal" ref="modal">
     <div class="modal-wrap" ref="modalWrap">
       <label for="city-name">Enter Location</label>
       <input
@@ -8,15 +8,41 @@
         v-model="city"
         name="city-name"
       />
+      <button @click="addCity" :disabled="city === ''" class="button">
+        Add
+      </button>
     </div>
   </div>
 </template>
 
 <script>
+import db from '@/firebase/firebaseinit'
+import axios from 'axios'
+
 export default {
   name: 'modal',
   data() {
-    return { city: null }
+    return { city: '' }
+  },
+  methods: {
+    closeModal(e) {
+      if (e.target === this.$refs.modal) {
+        this.$emit('close-modal')
+      }
+    },
+    async addCity() {
+      const { data } = await axios.get(
+        `https://api.weatherapi.com/v1/current.json?key=${process.env.VUE_APP_API_KEY}&q=${this.city}&aqi=no`
+      )
+
+      db.collection('cities')
+        .doc()
+        .set({
+          city: this.city,
+          currentWeather: data,
+        })
+        .then(() => this.$emit('close-modal'))
+    },
   },
 }
 </script>
@@ -55,13 +81,14 @@ export default {
     &:focus {
       outline: none;
     }
-    button {
-      background-color: #222325;
-      color: #fff;
-      padding: 6px 20px;
-      border-radius: 8px;
-      border: none;
-    }
+  }
+  .button {
+    background-color: #222325;
+    color: #fff;
+    padding: 6px 20px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
   }
 }
 </style>

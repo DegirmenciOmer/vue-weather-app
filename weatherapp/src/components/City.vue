@@ -5,12 +5,7 @@
       <span
         >{{ Math.round(this.city.currentWeather.current.temp_c) }}&deg;</span
       >
-      <img
-        :src="
-          require(`../../public/conditions/${this.city.currentWeather.current.condition.text}.svg`)
-        "
-        alt=""
-      />
+      <img :src="this.city.currentWeather.current.condition.icon" alt="" />
     </div>
     <div class="video">
       <video
@@ -18,7 +13,10 @@
         loop
         muted
         :src="
-          require(`../../public/videos/${this.city.currentWeather.current.condition.text}.mp4`)
+          require(`../../public/videos/${
+            this.city.currentWeather.current.condition.code +
+            this.city.currentWeather.current.is_day
+          }.mp4`)
         "
         alt=""
       ></video>
@@ -30,9 +28,6 @@
 export default {
   name: 'City',
   props: ['city'],
-  created() {
-    console.log(this.city, 'ín city compone')
-  },
 }
 </script>
 

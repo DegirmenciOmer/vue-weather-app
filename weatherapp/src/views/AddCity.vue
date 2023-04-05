@@ -13,9 +13,6 @@ import City from '../components/City.vue'
 export default {
   name: 'AddCity',
   props: ['cities'],
-  created() {
-    console.log(this.cities)
-  },
   components: { City },
 }
 </script>
@@ -26,6 +23,7 @@ export default {
   width: 100%;
   background-color: #31363d;
   height: 100vh;
+  grid-auto-rows: 250px;
 
   @media (min-width: 400px) {
     grid-template-columns: repeat(2, 1fr);
