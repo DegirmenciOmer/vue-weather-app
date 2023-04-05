@@ -1,5 +1,10 @@
 <template>
   <div class="city">
+    <i
+      @click="deleteCity"
+      v-show="this.editOpen"
+      class="far fa-trash-alt edit"
+    ></i>
     <span>{{ this.city.city }}</span>
     <span>{{ this.city.currentWeather.current.condition.text }}</span>
     <div class="weather">
@@ -26,9 +31,42 @@
 </template>
 
 <script>
+import db from '@/firebase/firebaseinit'
+//import axios from 'axios'
 export default {
   name: 'City',
-  props: ['city'],
+  props: ['city', 'editOpen'],
+  data() {
+    return {
+      cityId: null,
+    }
+  },
+  methods: {
+    async deleteCity() {
+      // const res = await axios.delete(
+      //   `https://api.weatherapi.com/v1/current.json?key=${process.env.VUE_APP_API_KEY}&q=${this.city}&aqi=no`
+      // )
+
+      const collectionRef = db.collection('cities')
+      const query = collectionRef.where('city', '==', `${this.city.city}`) // Replace 'field' and 'value' with the appropriate values for your use case
+      query.get().then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          const docId = doc.id
+          const docRef = db.collection('cities').doc(docId)
+
+          // Delete the document
+          docRef
+            .delete()
+            .then(() => {
+              console.log('Document successfully deleted!')
+            })
+            .catch((error) => {
+              console.error('Error removing document: ', error)
+            })
+        })
+      })
+    },
+  },
 }
 </script>
 
@@ -42,6 +80,18 @@ export default {
   min-height: 250px;
   color: #fff;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+
+  .edit {
+    cursor: pointer;
+    border-radius: 0 15px 0 0;
+    border: 10px solid rgb(77, 77, 77);
+    background-color: rgb(77, 77, 77);
+    z-index: 1;
+    font-size: 25px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+  }
 }
 
 span {

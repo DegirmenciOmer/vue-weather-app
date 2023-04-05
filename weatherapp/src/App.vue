@@ -1,8 +1,8 @@
 <template>
   <div class="main">
     <Modal v-if="modalOpen" v-on:close-modal="toggleModal" />
-    <Navigation v-on:add-city="toggleModal" />
-    <router-view v-bind:cities="cities" />
+    <Navigation v-on:add-city="toggleModal" v-on:toggle-edit="toggleEdit" />
+    <router-view v-bind:cities="cities" v-bind:editOpen="editOpen" />
   </div>
 </template>
 
@@ -23,6 +23,7 @@ export default {
       cities: [],
       modalOpen: false,
       url: '',
+      editOpen: false,
     }
   },
   methods: {
@@ -60,6 +61,9 @@ export default {
     },
     toggleModal() {
       this.modalOpen = !this.modalOpen
+    },
+    toggleEdit() {
+      this.editOpen = !this.editOpen
     },
   },
   created() {
