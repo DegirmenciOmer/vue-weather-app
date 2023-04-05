@@ -31,7 +31,11 @@ export default {
 
       firebaseDB.onSnapshot((snap) => {
         snap.docChanges().forEach(async (doc) => {
-          if (doc.type === 'added') {
+          if (
+            // run only for the existing cities
+            doc.type === 'added' &&
+            !doc._delegate.doc.metadata.hasPendingWrites
+          ) {
             try {
               const res = await axios.get(
                 `https://api.weatherapi.com/v1/current.json?key=${
@@ -48,7 +52,8 @@ export default {
               console.log(error)
             }
           } else {
-            console.log(doc.doc.data().city, 'daata', doc.type)
+            // run only when the new city is added
+            this.cities.push(doc.doc.data())
           }
         })
       })

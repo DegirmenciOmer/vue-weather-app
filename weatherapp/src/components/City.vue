@@ -1,6 +1,7 @@
 <template>
   <div class="city">
     <span>{{ this.city.city }}</span>
+    <span>{{ this.city.currentWeather.current.condition.text }}</span>
     <div class="weather">
       <span
         >{{ Math.round(this.city.currentWeather.current.temp_c) }}&deg;</span
